@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" 
                Grid.RowSpan="5" 
@@ -38,6 +38,12 @@
                FontSize="70"
                VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center"></Label>
+        <Label Grid.Column="1" 
+               Grid.Row="5"
+               FontSize="40"
+               VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Content="{Binding TotalTime, StringFormat='HH:mm:ss', Mode=OneWay}"></Label>
         <Button Grid.Column="0" 
                 Grid.Row="7" 
                 Margin="10"

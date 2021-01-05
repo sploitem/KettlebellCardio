@@ -31,6 +31,20 @@ namespace KettlebellCardio
             }
         }
 
+        private TimeSpan totalTime;
+        public TimeSpan TotalTime
+        {
+            get
+            {
+                return totalTime;
+            }
+            set
+            {
+                totalTime = value;
+                OnPropertyChanged(nameof(TotalTime));
+            }
+        }
+
         private string exercise;
         public string Exercise
         {
@@ -64,6 +78,7 @@ namespace KettlebellCardio
 
         public MainWindowViewModel()
         {
+            TotalTime = TimeSpan.FromSeconds(0);
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -73,6 +88,10 @@ namespace KettlebellCardio
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            if (exercisePosition == Exercises.list.Length)
+            {
+                timer.Stop();
+            }
             if (Counter == 30)
             {
                 Counter = 0;
@@ -80,6 +99,7 @@ namespace KettlebellCardio
                 Exercise = Exercises.list[exercisePosition];
                 NextExercise = exercisePosition == Exercises.list.Length ? "" : Exercises.list[exercisePosition + 1];
             }
+            TotalTime = TotalTime.Add(TimeSpan.FromSeconds(1));
             Counter++;
         }
 
@@ -91,6 +111,7 @@ namespace KettlebellCardio
                 return startCommand ??
                   (startCommand = new Command(obj =>
                   {
+                      TotalTime = TimeSpan.FromSeconds(0);
                       Counter = 0;
                       exercisePosition = 0;
                       Exercise = Exercises.list[exercisePosition];
