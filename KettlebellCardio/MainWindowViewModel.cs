@@ -83,21 +83,22 @@ namespace KettlebellCardio
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
             Exercise = Exercises.list[exercisePosition];
-            NextExercise = exercisePosition == Exercises.list.Length ? Exercises.list[exercisePosition] : Exercises.list[exercisePosition + 1];
+            NextExercise = exercisePosition == Exercises.list.Length - 1 ? "Конец" : Exercises.list[exercisePosition + 1];
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (exercisePosition == Exercises.list.Length)
+            if (exercisePosition == Exercises.list.Length - 1)
             {
                 timer.Stop();
+                return;
             }
-            if (Counter == 2)
+            if (Counter == 30)
             {
                 Counter = 0;
                 exercisePosition++;
                 Exercise = Exercises.list[exercisePosition];
-                NextExercise = exercisePosition == Exercises.list.Length ? Exercises.list[exercisePosition] : Exercises.list[exercisePosition + 1];
+                NextExercise = exercisePosition == Exercises.list.Length -1 ? "Конец" : Exercises.list[exercisePosition + 1];
             }
             TotalTime = TotalTime.Add(TimeSpan.FromSeconds(1));
             Counter++;
@@ -115,9 +116,10 @@ namespace KettlebellCardio
                       Counter = 0;
                       exercisePosition = 0;
                       Exercise = Exercises.list[exercisePosition];
-                      NextExercise = exercisePosition == Exercises.list.Length ? "" : Exercises.list[exercisePosition + 1];
+                      NextExercise = exercisePosition == Exercises.list.Length - 1 ? "Конец" : Exercises.list[exercisePosition + 1];
                       timer.Start();
-                  }));
+                  },
+                  (obj) => !timer.IsEnabled));
             }
         }
 
@@ -130,7 +132,8 @@ namespace KettlebellCardio
                   (stopCommand = new Command(obj =>
                   {
                       timer.Stop();
-                  }));
+                  },
+                  (obj) => timer.IsEnabled));
             }
         }
     }
