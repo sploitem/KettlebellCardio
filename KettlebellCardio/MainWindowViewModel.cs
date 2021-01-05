@@ -83,7 +83,7 @@ namespace KettlebellCardio
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
             Exercise = Exercises.list[exercisePosition];
-            NextExercise = exercisePosition == Exercises.list.Length ? "" : Exercises.list[exercisePosition + 1];
+            NextExercise = exercisePosition == Exercises.list.Length ? Exercises.list[exercisePosition] : Exercises.list[exercisePosition + 1];
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -92,12 +92,12 @@ namespace KettlebellCardio
             {
                 timer.Stop();
             }
-            if (Counter == 30)
+            if (Counter == 2)
             {
                 Counter = 0;
                 exercisePosition++;
                 Exercise = Exercises.list[exercisePosition];
-                NextExercise = exercisePosition == Exercises.list.Length ? "" : Exercises.list[exercisePosition + 1];
+                NextExercise = exercisePosition == Exercises.list.Length ? Exercises.list[exercisePosition] : Exercises.list[exercisePosition + 1];
             }
             TotalTime = TotalTime.Add(TimeSpan.FromSeconds(1));
             Counter++;
